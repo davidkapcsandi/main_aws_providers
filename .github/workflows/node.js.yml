@@ -1,0 +1,36 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '25'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.12.1
+        with:
+          mongodb-version: 7
+
+      - name: lint test
+        run: npm run lint
+
+      - name: unit test
+        run: npm run test:unit
+
+      - name: Cypress.io
+        uses: cypress-io/github-action@v7.1.9
+        with:
+          start: npm run start:test
