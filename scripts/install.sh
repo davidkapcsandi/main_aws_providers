@@ -1,6 +1,5 @@
 #!/bin/bash
-set -e
+set -euxo pipefail
 
 cd /home/ec2-user/app
-
 npm install

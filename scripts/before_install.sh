@@ -1,7 +1,15 @@
 #!/bin/bash
-set -e
-
-sudo dnf install -y nodejs22 nodejs22-npm
+set -euxo pipefail
 
 mkdir -p /home/ec2-user/app
 chown -R ec2-user:ec2-user /home/ec2-user/app
+
+if command -v dnf >/dev/null 2>&1; then
+  dnf install -y nodejs npm
+else
+  curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
+  yum install -y nodejs
+fi
+
+node -v
+npm -v
